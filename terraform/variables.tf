@@ -3,6 +3,12 @@ variable "project_id" {
   type        = string
 }
 
+variable "vm_name" {
+  description = "Name of the VM instance"
+  type        = string
+  default     = "my-node-vm"
+}
+
 variable "region" {
   description = "GCP Region"
   type        = string
