@@ -22,56 +22,46 @@ jobs:
       id-token: 'write'
 
     steps:
-      # Checkout repository
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Authenticate to Google Cloud
       - id: auth
         name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v1
         with:
           credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
 
-      # Set up Cloud SDK
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
         with:
           project_id: ${{ env.PROJECT_ID }}
 
-      # Configure Docker to use gcloud credentials
       - name: Configure Docker
         run: gcloud auth configure-docker --quiet
 
-      # Build and push Docker image
       - name: Build Docker image
         run: docker build -t gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}:latest ./src
 
       - name: Push Docker image
         run: docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}:latest
 
-      # Set up Terraform
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.5.0
 
-      # Initialize Terraform
       - name: Terraform Init
         working-directory: ./terraform
         run: terraform init
 
-      # Validate Terraform configuration
       - name: Terraform Validate
         working-directory: ./terraform
         run: terraform validate
 
-      # Plan Terraform deployment
       - name: Terraform Plan
         working-directory: ./terraform
-        run: terraform plan -var="project_id=${{ env.PROJECT_ID }}" -var="region=${{ env.REGION }}" -var="service_name=${{ env.SERVICE_NAME }}" -var="vm_name=${{ env.VM_NAME }}" -var="mongodb_vm_name=${{ env.MONGODB_VM_NAME }}" -var="credentials_path=null" -out=tfplan
+        run: terraform plan -var="project_id=${{ env.PROJECT_ID }}" -var="region=${{ env.REGION }}" -var="service_name=${{ env.SERVICE_NAME }}" -var="vm_name=${{ env.VM_NAME }}" -var="mongodb_vm_name=${{ env.MONGODB_VM_NAME }}" -out=tfplan
 
-      # Apply Terraform changes
       - name: Terraform Apply
         working-directory: ./terraform
         run: terraform apply -auto-approve tfplan
@@ -104,4 +94,4 @@ jobs:
         run: terraform init
       - name: Terraform Destroy
         working-directory: ./terraform
-        run: terraform destroy -auto-approve -var="project_id=${{ env.PROJECT_ID }}" -var="region=${{ env.REGION }}" -var="service_name=${{ env.SERVICE_NAME }}" -var="vm_name=${{ env.VM_NAME }}" -var="mongodb_vm_name=${{ env.MONGODB_VM_NAME }}" -var="credentials_path=null"
+        run: terraform destroy -auto-approve -var="project_id=${{ env.PROJECT_ID }}" -var="region=${{ env.REGION }}" -var="service_name=${{ env.SERVICE_NAME }}" -var="vm_name=${{ env.VM_NAME }}" -var="mongodb_vm_name=${{ env.MONGODB_VM_NAME }}"
