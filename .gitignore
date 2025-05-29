@@ -1,8 +1,4 @@
 terraform/.terraform/
-.terraform/
+terraform/credentials.json
 terraform.tfstate
 terraform.tfstate.backup
-*.tfstate.*
-crash.log
-terraform/credentials.json
-terraform/credentials.json
