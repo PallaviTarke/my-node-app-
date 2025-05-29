@@ -20,3 +20,10 @@ variable "service_name" {
   type        = string
   default     = "my-node-app"
 }
+
+variable "mongodb_vm_name" {
+  description = "The name of the MongoDB VM"
+  type        = string
+  default     = "mongodb-vm"
+}
+
