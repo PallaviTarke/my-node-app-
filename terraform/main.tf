@@ -1,6 +1,13 @@
+variable "credentials_path" {
+  description = "Path to the Google Cloud credentials file"
+  type        = string
+  default     = null
+}
+
 provider "google" {
   project     = var.project_id
   region      = var.region
+  credentials = var.credentials_path != null ? file(var.credentials_path) : null
 }
 
 # Node.js App VM
