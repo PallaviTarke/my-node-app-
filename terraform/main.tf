@@ -7,7 +7,7 @@ variable "credentials_path" {
 provider "google" {
   project     = var.project_id
   region      = var.region
-  credentials = var.credentials_path != null ? file(var.credentials_path) : null
+  credentials = (var.credentials_path != null && var.credentials_path != "null") ? file(var.credentials_path) : null
 }
 
 # Node.js App VM
@@ -57,7 +57,7 @@ resource "google_compute_instance" "mongodb_vm" {
 
   network_interface {
     network = "default"
-    access_config {}  # Optional: Remove if you don't need external access to the MongoDB VM
+    access_config {}
   }
 
   metadata_startup_script = <<-EOF
@@ -99,7 +99,6 @@ resource "google_compute_firewall" "allow_mongodb" {
     ports    = ["27017"]
   }
 
-  # Restrict source to only the Node.js app VM's internal IP
   source_tags = ["app-vm"]
   target_tags = ["mongodb-vm"]
 }
