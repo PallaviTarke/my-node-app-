@@ -5,3 +5,4 @@ terraform.tfstate.backup
 *.tfstate.*
 crash.log
 terraform/credentials.json
+terraform/credentials.json
