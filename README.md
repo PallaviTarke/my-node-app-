@@ -16,3 +16,4 @@
 
 
 
+# Trigger infrastructure cleanup at 01:03 PM IST on May 29, 2025
