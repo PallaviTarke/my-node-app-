@@ -69,7 +69,7 @@ jobs:
       # Plan Terraform deployment
       - name: Terraform Plan
         working-directory: ./terraform
-        run: terraform plan -var="project_id=${{ env.PROJECT_ID }}" -var="region=${{ env.REGION }}" -var="service_name=${{ env.SERVICE_NAME }}" -var="vm_name=${{ env.VM_NAME }}" -var="mongodb_vm_name=${{ env.MONGODB_VM_NAME }}" -out=tfplan
+        run: terraform plan -var="project_id=${{ env.PROJECT_ID }}" -var="region=${{ env.REGION }}" -var="service_name=${{ env.SERVICE_NAME }}" -var="vm_name=${{ env.VM_NAME }}" -var="mongodb_vm_name=${{ env.MONGODB_VM_NAME }}" -var="credentials_path=null" -out=tfplan
 
       # Apply Terraform changes
       - name: Terraform Apply
@@ -104,4 +104,4 @@ jobs:
         run: terraform init
       - name: Terraform Destroy
         working-directory: ./terraform
-        run: terraform destroy -auto-approve -var="project_id=${{ env.PROJECT_ID }}" -var="region=${{ env.REGION }}" -var="service_name=${{ env.SERVICE_NAME }}" -var="vm_name=${{ env.VM_NAME }}" -var="mongodb_vm_name=${{ env.MONGODB_VM_NAME }}"
+        run: terraform destroy -auto-approve -var="project_id=${{ env.PROJECT_ID }}" -var="region=${{ env.REGION }}" -var="service_name=${{ env.SERVICE_NAME }}" -var="vm_name=${{ env.VM_NAME }}" -var="mongodb_vm_name=${{ env.MONGODB_VM_NAME }}" -var="credentials_path=null"
